@@ -1,0 +1,7 @@
+package bank
+
+
+context Client inv minAccounts : self.accounts->size()> 0
+
+context Client inv minManagers : self.manager->size()>0
+endpackage
