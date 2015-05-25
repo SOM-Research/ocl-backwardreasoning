@@ -53,8 +53,6 @@ import backwardreasoning.examples.visitors.LookupSelfVariableVisitor;
 import backwardreasoning.examples.visitors.LookupVariableVisitor;
 import bank.Account;
 import bank.BankPackage;
-import ProductionSystem.Machine;
-import ProductionSystem.ProductionSystemPackage;
 
 /**
  * Bank example for the Henshin interpreter. Shows the usage of the interpreter.
@@ -121,7 +119,7 @@ public class BankExample {
 //			resourceSet.saveEObject(graph.getRoots().get(0),
 //					"example-result.xmi");
 //		}
-		System.err.println("List of constraints");
+		System.out.println("List of constraints");
 		System.out.println(constraints);
 		System.err.println("Delete the object of type Account which has the reference a");
 		for (Constraint c : constraints) {
