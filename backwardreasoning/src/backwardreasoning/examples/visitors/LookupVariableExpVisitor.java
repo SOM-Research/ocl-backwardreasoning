@@ -1,7 +1,6 @@
 
 package backwardreasoning.examples.visitors;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
@@ -16,25 +15,18 @@ import org.eclipse.ocl.expressions.VariableExp;
 import org.eclipse.ocl.utilities.AbstractVisitor;
 
 
-public class LookupVariableVisitor extends AbstractVisitor<Variable<EClassifier, EParameter>, EClassifier, EOperation, EStructuralFeature, EEnumLiteral, EParameter, EObject, CallOperationAction, SendSignalAction, Constraint> {
+public class LookupVariableExpVisitor extends AbstractVisitor<VariableExp<EClassifier, EParameter>, EClassifier, EOperation, EStructuralFeature, EEnumLiteral, EParameter, EObject, CallOperationAction, SendSignalAction, Constraint> {
 	
-	
-
-
-	public  Variable<EClassifier, EParameter> visitVariableExp(VariableExp<EClassifier, EParameter> v) {
-		Variable<EClassifier, EParameter> referredVar = v.getReferredVariable();
-		
-			result = referredVar;
-		
+	public  VariableExp<EClassifier, EParameter> visitVariableExp(VariableExp<EClassifier, EParameter> v) {
+			result = v;
 		return result;
-		
 	}
 	
 	/**
 	 * If the "self" variable was referenced, this method return the declaration of the variable, 
 	 * otherwise the method return null.
 	 */
-	public Variable<EClassifier, EParameter> getResult() {
+	public VariableExp<EClassifier, EParameter> getResult() {
 		return result;
 	}
 }

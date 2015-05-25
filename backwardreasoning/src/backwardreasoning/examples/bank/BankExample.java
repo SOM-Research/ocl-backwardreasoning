@@ -92,12 +92,19 @@ public class BankExample {
 		// Load the example model into an EGraph:
 		EGraph graph = new EGraphImpl(resourceSet.getResource("bank.xmi"));
 
+		//OCL constraints
 		List<Constraint> constraints = OCLUtil
 				.parseOCL(
 						URI.createFileURI("./src/backwardreasoning/examples/bank/bank.ocl"),
 						BankPackage.eINSTANCE);
+		
+		//Test classes
 		EClass accountEClass = EcoreUtil.getEObject(graph.getRoots()
 				.get(0), "@accounts.1").eClass();
+		EClass clientEClass =  EcoreUtil.getEObject(graph.getRoots()
+				.get(0), "@clients.0").eClass();
+		EClass managerEClass =  EcoreUtil.getEObject(graph.getRoots()
+				.get(0), "@managers.0").eClass();
 		Engine engine = new EngineImpl();
 		UnitApplication app = new UnitApplicationImpl(engine);
 		app.setEGraph(graph);
@@ -114,14 +121,41 @@ public class BankExample {
 //			resourceSet.saveEObject(graph.getRoots().get(0),
 //					"example-result.xmi");
 //		}
+		System.err.println("List of constraints");
 		System.out.println(constraints);
-
+		System.err.println("Delete the object of type Account which has the reference a");
 		for (Constraint c : constraints) {
-
+			System.out.println("Post-condition : "+c);
 			DeleteObjectPattern deleteObject = new DeleteObjectPattern(c,
 					accountEClass, "a");
 			deleteObject.insertQuantification();
-			System.out.println(deleteObject.getOclExpression().getBodyExpression());
+			System.out.println("Pre-condition : "+deleteObject.getOclExpression().getBodyExpression());
+			System.out.println("");
+		}
+		constraints = OCLUtil
+				.parseOCL(
+						URI.createFileURI("./src/backwardreasoning/examples/bank/bank.ocl"),
+						BankPackage.eINSTANCE);
+		
+			System.err.println("Delete the link between client c and manager m");
+			for (Constraint c : constraints) {
+				System.out.println("Post-condition : "+c);
+			DeleteLinkPattern deleteLink = new DeleteLinkPattern(c, clientEClass, managerEClass, "c", "m");
+			deleteLink.insertQuantification();
+			System.out.println("Pre-condition : "+deleteLink.getOclExpression().getBodyExpression());
+			System.out.println("");
+			}
+			System.err.println("Create a link between client c and account a");
+			constraints = OCLUtil
+					.parseOCL(
+							URI.createFileURI("./src/backwardreasoning/examples/bank/bank.ocl"),
+							BankPackage.eINSTANCE);
+			for (Constraint c : constraints) {
+				System.out.println("Post-condition : "+c);
+			CreateLinkPattern createLink = new CreateLinkPattern(c, clientEClass, accountEClass, "c", "a");
+			createLink.insertQuantification();
+			System.out.println("Pre-condition : "+createLink.getOclExpression().getBodyExpression());	
+			System.out.println("");
 
 		}
 

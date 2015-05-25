@@ -58,7 +58,6 @@ public class OCLUtil {
 		bodyExp.accept(lookupVisitor);
 		Variable<EClassifier, EParameter> selfDecl = lookupVisitor.getResult();
 		if (selfDecl != null) {
-			System.err.println("Adding required self variable quantification");
 			EcorePackage oclPackage = (EcorePackage) oclExpression.eClass()
 					.getEPackage();
 			EcoreFactory oclFactory = (EcoreFactory) oclPackage

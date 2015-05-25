@@ -31,8 +31,8 @@ import backwardreasoning.examples.utils.OCLUtil;
 import backwardreasoning.examples.visitors.LookupPropertyVisitor;
 import backwardreasoning.examples.visitors.LookupVariableExpVisitor;
 
-public class DeleteLinkPattern {
-	
+public class CreateLinkPattern {
+
 	private Constraint constraint;
 	private ExpressionInOCL oclExpression;
 	private EClass contextCls;
@@ -41,25 +41,23 @@ public class DeleteLinkPattern {
 	private String variableNameSource;
 	private String variableNameTarget;
 	OCLHelper<EClassifier, EOperation, EStructuralFeature, Constraint> helper;
-	public DeleteLinkPattern(Constraint constraint,EClass eClassSource, EClass eClassTarget, String variableNameSource, String variableNameTarget) throws ParserException{
+
+	public CreateLinkPattern(Constraint constraint, EClass eClassSource,
+			EClass eClassTarget, String variableNameSource,
+			String variableNameTarget) throws ParserException {
 		this.constraint = constraint;
 		this.eClassSource = eClassSource;
 		this.eClassTarget = eClassTarget;
 		this.variableNameSource = variableNameSource;
 		this.variableNameTarget = variableNameTarget;
-		 oclExpression = (ExpressionInOCL) constraint.getSpecification();
+		oclExpression = (ExpressionInOCL) constraint.getSpecification();
 		contextCls = (EClass) constraint.getConstrainedElements().get(0);
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
-		helper = ocl
-				.createOCLHelper();
+		helper = ocl.createOCLHelper();
 		OCLUtil.insertQuantificationForSelf(helper, contextCls, oclExpression);
 	}
-	
-	
 
-
-	public  void insertQuantification()
-			throws ParserException {
+	public void insertQuantification() throws ParserException {
 
 		OCLExpression bodyExp = oclExpression.getBodyExpression();
 		LookupPropertyVisitor lookupVisitor = new LookupPropertyVisitor();
@@ -67,71 +65,79 @@ public class DeleteLinkPattern {
 		bodyExp.accept(lookupVariable);
 		bodyExp.accept(lookupVisitor);
 		OCLExpression iterateBody = null;
-		if(bodyExp instanceof IterateExp)
-			iterateBody =((IterateExp) bodyExp).getBody();
-		Set<PropertyCallExp<EClassifier, EStructuralFeature>> result = lookupVisitor.getResult();
-		VariableExp<EClassifier, EParameter> contextVariable = lookupVariable.getResult();
-		for(PropertyCallExp<EClassifier, EStructuralFeature> item : result)
-		if (((EClassifier)item.getReferredProperty().getEType()).getName().equals(eClassTarget.getName())) {
-		
-			EcorePackage oclPackage = (EcorePackage) oclExpression.eClass()
-					.getEPackage();
-			EcoreFactory oclFactory = (EcoreFactory) oclPackage
-					.getEFactoryInstance();
-			OperationCallExp op = (OperationCallExp) item.eContainer();
-			OperationCallExp clone = EcoreUtil.copy(getOperationContainer(op));
-			IfExp ifExp = oclFactory.createIfExp();
-			
-			
-			VariableExp variableTarget = oclFactory.createVariableExp();
-			variableTarget.setName(variableNameTarget);
-			variableTarget.setType(eClassTarget);
-			Variable vt = oclFactory.createVariable();
-			vt.setName(variableNameTarget);
-			vt.setType(eClassTarget);
-			variableTarget.setReferredVariable(vt);
-			
-			VariableExp variableSource = oclFactory.createVariableExp();
-			variableSource.setName(variableNameSource);
-			variableSource.setType(eClassSource);
-			Variable vs = oclFactory.createVariable();
-			vs.setName(variableNameSource);
-			vs.setType(eClassTarget);
-			variableSource.setReferredVariable(vs);
-			
+		if (bodyExp instanceof IterateExp)
+			iterateBody = ((IterateExp) bodyExp).getBody();
+		Set<PropertyCallExp<EClassifier, EStructuralFeature>> result = lookupVisitor
+				.getResult();
+		VariableExp<EClassifier, EParameter> contextVariable = lookupVariable
+				.getResult();
+		for (PropertyCallExp<EClassifier, EStructuralFeature> item : result)
+			if (((EClassifier) item.getReferredProperty().getEType()).getName()
+					.equals(eClassTarget.getName())) {
 
-			
-			OperationCallExp conditionExp = oclFactory.createOperationCallExp();
-			EOperation equals = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEOperation();
-			equals.setName("=");
-			conditionExp.setReferredOperation(equals);
-			conditionExp.setType(oclFactory.createPrimitiveType());
-			conditionExp.getArgument().add(variableSource);
-conditionExp.setSource(contextVariable);
-			
-			OperationCallExp operationCallExp = oclFactory.createOperationCallExp();
-			EOperation excluding = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEOperation();
-			excluding.setName("excluding");
-			operationCallExp.setReferredOperation(excluding);
-			operationCallExp.getArgument().add(variableTarget);
-			operationCallExp.setSource(item);
-			op.setSource(operationCallExp);
+				EcorePackage oclPackage = (EcorePackage) oclExpression.eClass()
+						.getEPackage();
+				EcoreFactory oclFactory = (EcoreFactory) oclPackage
+						.getEFactoryInstance();
+				OperationCallExp op = (OperationCallExp) item.eContainer();
+				OperationCallExp clone = EcoreUtil
+						.copy(getOperationContainer(op));
+				IfExp ifExp = oclFactory.createIfExp();
 
-			ifExp.setCondition(conditionExp);
-			ifExp.setName("if");
-			ifExp.setThenExpression(getOperationContainer(operationCallExp));
-ifExp.setElseExpression(clone);
-			((IteratorExp) bodyExp).setBody(ifExp);
-		}
+				VariableExp variableTarget = oclFactory.createVariableExp();
+				variableTarget.setName(variableNameTarget);
+				variableTarget.setType(eClassTarget);
+				Variable vt = oclFactory.createVariable();
+				vt.setName(variableNameTarget);
+				vt.setType(eClassTarget);
+				variableTarget.setReferredVariable(vt);
+
+				VariableExp variableSource = oclFactory.createVariableExp();
+				variableSource.setName(variableNameSource);
+				variableSource.setType(eClassSource);
+				Variable vs = oclFactory.createVariable();
+				vs.setName(variableNameSource);
+				vs.setType(eClassTarget);
+				variableSource.setReferredVariable(vs);
+
+				OperationCallExp conditionExp = oclFactory
+						.createOperationCallExp();
+				EOperation equals = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE
+						.createEOperation();
+				equals.setName("=");
+				conditionExp.setReferredOperation(equals);
+				conditionExp.setType(oclFactory.createPrimitiveType());
+				conditionExp.getArgument().add(variableSource);
+				conditionExp.setSource(contextVariable);
+
+				OperationCallExp operationCallExp = oclFactory
+						.createOperationCallExp();
+				EOperation including = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE
+						.createEOperation();
+				including.setName("including");
+				operationCallExp.setReferredOperation(including);
+				operationCallExp.getArgument().add(variableTarget);
+				operationCallExp.setSource(item);
+				op.setSource(operationCallExp);
+
+				ifExp.setCondition(conditionExp);
+				ifExp.setName("if");
+				ifExp.setThenExpression(getOperationContainer(operationCallExp));
+				ifExp.setElseExpression(clone);
+				((IteratorExp) bodyExp).setBody(ifExp);
+			}
 	}
-	public OperationCallExp getOperationContainer(OperationCallExp op){
+
+	public OperationCallExp getOperationContainer(OperationCallExp op) {
 		OperationCallExp temp = op;
-		while(op.eContainer() != null && op.eContainer() instanceof OperationCallExp){
+		while (op.eContainer() != null
+				&& op.eContainer() instanceof OperationCallExp) {
 			temp = (OperationCallExp) op.eContainer();
 			op = temp;
 		}
-			return temp;
+		return temp;
 	}
+
 	public Constraint getConstraint() {
 		return constraint;
 	}
@@ -155,7 +161,6 @@ ifExp.setElseExpression(clone);
 	public void setContextCls(EClass contextCls) {
 		this.contextCls = contextCls;
 	}
-
 
 	public OCLHelper<EClassifier, EOperation, EStructuralFeature, Constraint> getHelper() {
 		return helper;

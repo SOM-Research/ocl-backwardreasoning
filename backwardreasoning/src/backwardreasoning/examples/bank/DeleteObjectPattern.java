@@ -41,7 +41,6 @@ public class DeleteObjectPattern {
 		helper = ocl
 				.createOCLHelper();
 		OCLUtil.insertQuantificationForSelf(helper, contextCls, oclExpression);
-		System.out.println(oclExpression.getBodyExpression());
 	}
 	
 	
@@ -54,9 +53,8 @@ public class DeleteObjectPattern {
 		LookupPropertyVisitor lookupVisitor = new LookupPropertyVisitor();
 		bodyExp.accept(lookupVisitor);
 		Set<PropertyCallExp<EClassifier, EStructuralFeature>> result = lookupVisitor.getResult();
-		System.err.println("Delete object pattern");
 		for(PropertyCallExp<EClassifier, EStructuralFeature> item : result)
-		if (((EClass)item.getReferredProperty().getEType()).getName().equals(eClass.getName())) {
+		if (((EClassifier)item.getReferredProperty().getEType()).getName().equals(eClass.getName())) {
 		
 			EcorePackage oclPackage = (EcorePackage) oclExpression.eClass()
 					.getEPackage();
