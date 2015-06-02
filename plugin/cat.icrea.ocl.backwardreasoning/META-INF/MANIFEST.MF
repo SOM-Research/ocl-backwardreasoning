@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Backwardreasoning
+Bundle-SymbolicName: cat.icrea.ocl.backwardreasoning
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: cat.icrea.ocl.backwardreasoning.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ocl;visibility:=reexport,
+ org.eclipse.ocl.ecore;visibility:=reexport
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Export-Package: cat.icrea.ocl.backwardreasoning.facade,
+ cat.icrea.ocl.backwardreasoning.utils
