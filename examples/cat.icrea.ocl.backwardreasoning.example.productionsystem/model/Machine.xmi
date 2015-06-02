@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ASCII"?>
+<Machine xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.example.com/PS"
+    xsi:schemaLocation="http://www.example.com/PS productionSystem.ecore"
+    id="m1">
+  <ic capacity="6"
+      id="c1">
+    <piece xsi:type="Raw"
+        id="r1"/>
+    <piece xsi:type="Raw"
+        id="r2"/>
+  </ic>
+  <oc capacity="2"
+      id="c2">
+    <piece xsi:type="Processed"
+        id="p1"/>
+  </oc>
+</Machine>

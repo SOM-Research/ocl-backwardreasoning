@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/cat.icrea.ocl.backwardreasoning.example.productionsystem/src"
+    modelPluginID="cat.icrea.ocl.backwardreasoning.example.productionsystem" modelName="ProductionSystem"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="8.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>productionSystem.ecore</foreignModel>
+  <genPackages prefix="ProductionSystem" disposableProviderFactory="true" ecorePackage="productionSystem.ecore#/">
+    <genClasses ecoreClass="productionSystem.ecore#//Machine">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference productionSystem.ecore#//Machine/ic"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference productionSystem.ecore#//Machine/oc"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute productionSystem.ecore#//Machine/id"/>
+    </genClasses>
+    <genClasses ecoreClass="productionSystem.ecore#//Conveyor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute productionSystem.ecore#//Conveyor/capacity"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference productionSystem.ecore#//Conveyor/piece"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference productionSystem.ecore#//Conveyor/next"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference productionSystem.ecore#//Conveyor/prev"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference productionSystem.ecore#//Conveyor/im"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference productionSystem.ecore#//Conveyor/om"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute productionSystem.ecore#//Conveyor/id"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="productionSystem.ecore#//Piece">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference productionSystem.ecore#//Piece/conveyor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute productionSystem.ecore#//Piece/id"/>
+    </genClasses>
+    <genClasses ecoreClass="productionSystem.ecore#//Raw"/>
+    <genClasses ecoreClass="productionSystem.ecore#//Processed"/>
+  </genPackages>
+</genmodel:GenModel>

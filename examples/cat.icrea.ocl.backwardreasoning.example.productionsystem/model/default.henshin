@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_XHjBYO0DEeS94vpI-sJXHQ">
+  <imports href="productionSystem.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_fZ88cO0DEeS94vpI-sJXHQ" name="process">
+    <parameters xmi:id="_jzOxYO0lEeSUWOL-CggleA" name="raw">
+      <type xsi:type="ecore:EClass" href="productionSystem.ecore#//Raw"/>
+    </parameters>
+    <lhs xmi:id="_faJwwO0DEeS94vpI-sJXHQ" name="Lhs">
+      <nodes xmi:id="_hjFMIO0DEeS94vpI-sJXHQ" outgoing="_x3LswO0DEeS94vpI-sJXHQ _ydthQO0DEeS94vpI-sJXHQ">
+        <type href="productionSystem.ecore#//Machine"/>
+      </nodes>
+      <nodes xmi:id="_ifkpkO0DEeS94vpI-sJXHQ" name="c1" incoming="_x3LswO0DEeS94vpI-sJXHQ" outgoing="_twD0cO0FEeS94vpI-sJXHQ">
+        <type href="productionSystem.ecore#//Conveyor"/>
+      </nodes>
+      <nodes xmi:id="_kS62gO0DEeS94vpI-sJXHQ" name="c2" incoming="_ydthQO0DEeS94vpI-sJXHQ">
+        <type href="productionSystem.ecore#//Conveyor"/>
+      </nodes>
+      <nodes xmi:id="_mF0XgO0DEeS94vpI-sJXHQ" name="raw" incoming="_twD0cO0FEeS94vpI-sJXHQ">
+        <type href="productionSystem.ecore#//Raw"/>
+      </nodes>
+      <edges xmi:id="_x3LswO0DEeS94vpI-sJXHQ" source="_hjFMIO0DEeS94vpI-sJXHQ" target="_ifkpkO0DEeS94vpI-sJXHQ">
+        <type href="productionSystem.ecore#//Machine/ic"/>
+      </edges>
+      <edges xmi:id="_ydthQO0DEeS94vpI-sJXHQ" source="_hjFMIO0DEeS94vpI-sJXHQ" target="_kS62gO0DEeS94vpI-sJXHQ">
+        <type href="productionSystem.ecore#//Machine/oc"/>
+      </edges>
+      <edges xmi:id="_twD0cO0FEeS94vpI-sJXHQ" source="_ifkpkO0DEeS94vpI-sJXHQ" target="_mF0XgO0DEeS94vpI-sJXHQ">
+        <type href="productionSystem.ecore#//Conveyor/piece"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_faJwwe0DEeS94vpI-sJXHQ" name="Rhs">
+      <nodes xmi:id="_hjFMIe0DEeS94vpI-sJXHQ" outgoing="_x3MT0O0DEeS94vpI-sJXHQ _yduIUO0DEeS94vpI-sJXHQ">
+        <type href="productionSystem.ecore#//Machine"/>
+      </nodes>
+      <nodes xmi:id="_ifkpke0DEeS94vpI-sJXHQ" name="c1" incoming="_x3MT0O0DEeS94vpI-sJXHQ">
+        <type href="productionSystem.ecore#//Conveyor"/>
+      </nodes>
+      <nodes xmi:id="_kS62ge0DEeS94vpI-sJXHQ" name="c2" incoming="_yduIUO0DEeS94vpI-sJXHQ">
+        <type href="productionSystem.ecore#//Conveyor"/>
+      </nodes>
+      <edges xmi:id="_x3MT0O0DEeS94vpI-sJXHQ" source="_hjFMIe0DEeS94vpI-sJXHQ" target="_ifkpke0DEeS94vpI-sJXHQ">
+        <type href="productionSystem.ecore#//Machine/ic"/>
+      </edges>
+      <edges xmi:id="_yduIUO0DEeS94vpI-sJXHQ" source="_hjFMIe0DEeS94vpI-sJXHQ" target="_kS62ge0DEeS94vpI-sJXHQ">
+        <type href="productionSystem.ecore#//Machine/oc"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_hjFMIu0DEeS94vpI-sJXHQ" origin="_hjFMIO0DEeS94vpI-sJXHQ" image="_hjFMIe0DEeS94vpI-sJXHQ"/>
+    <mappings xmi:id="_iflQoO0DEeS94vpI-sJXHQ" origin="_ifkpkO0DEeS94vpI-sJXHQ" image="_ifkpke0DEeS94vpI-sJXHQ"/>
+    <mappings xmi:id="_kS7dkO0DEeS94vpI-sJXHQ" origin="_kS62gO0DEeS94vpI-sJXHQ" image="_kS62ge0DEeS94vpI-sJXHQ"/>
+  </units>
+</henshin:Module>

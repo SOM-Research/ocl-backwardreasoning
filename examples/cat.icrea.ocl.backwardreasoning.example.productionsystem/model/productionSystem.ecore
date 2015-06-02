@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ProductionSystem" nsURI="http://www.example.com/PS" nsPrefix="PS">
+  <eClassifiers xsi:type="ecore:EClass" name="Machine">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ic" upperBound="-1" eType="#//Conveyor"
+        containment="true" eOpposite="#//Conveyor/om"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="oc" upperBound="-1" eType="#//Conveyor"
+        containment="true" eOpposite="#//Conveyor/im"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Conveyor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capacity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="piece" upperBound="-1"
+        eType="#//Piece" containment="true" eOpposite="#//Piece/conveyor"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="next" upperBound="-1" eType="#//Conveyor"
+        eOpposite="#//Conveyor/prev"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="prev" eType="#//Conveyor"
+        eOpposite="#//Conveyor/next"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="im" eType="#//Machine"
+        eOpposite="#//Machine/oc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="om" eType="#//Machine"
+        eOpposite="#//Machine/ic"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Piece" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conveyor" eType="#//Conveyor"
+        eOpposite="#//Conveyor/piece"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Raw" eSuperTypes="#//Piece"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Processed" eSuperTypes="#//Piece"/>
+</ecore:EPackage>

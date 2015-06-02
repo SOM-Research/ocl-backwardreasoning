@@ -1,0 +1,6 @@
+package ProductionSystem
+
+context Conveyor 
+inv conveyorInv: self.piece->size()<=self.capacity
+
+endpackage
