@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
@@ -103,6 +104,7 @@ public class BankExample {
 				.get(0), "@clients.0").eClass();
 		EClass managerEClass =  EcoreUtil.getEObject(graph.getRoots()
 				.get(0), "@managers.0").eClass();
+		EAttribute capacity = clientEClass.getEAllAttributes().get(1);
 		Engine engine = new EngineImpl();
 		UnitApplication app = new UnitApplicationImpl(engine);
 		app.setEGraph(graph);
@@ -154,7 +156,21 @@ public class BankExample {
 			createLink.insertQuantification();
 			System.out.println("Pre-condition : "+createLink.getOclExpression().getBodyExpression());	
 			System.out.println("");
-
+			constraints = OCLUtil
+					.parseOCL(
+							URI.createFileURI("./src/backwardreasoning/examples/bank/bank.ocl"),
+							BankPackage.eINSTANCE);
+			System.err.println("Test");
+			for (Constraint c1 : constraints) {
+				System.out.println("Post-condition : "+c1);
+				DeleteObjectPattern deleteObject = new DeleteObjectPattern(c1,
+						accountEClass, "a");
+				deleteObject.insertQuantification();
+				System.out.println("Pre-condition : "+deleteObject.getOclExpression().getBodyExpression());
+				System.out.println("");
+			}
+			
+			
 		}
 
 	}
