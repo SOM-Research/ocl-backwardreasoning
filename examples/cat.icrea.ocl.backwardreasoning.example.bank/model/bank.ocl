@@ -4,7 +4,10 @@ package bank
 context Client inv minAccounts : self.accounts->size()> 0
 
 context Client inv minManagers : self.manager->size()>0
-context Client inv maxAccounts : Client::allInstances()->forAll(b | b.accounts->size() <= b.capacity)
+context Client inv maxAccounts : Client::allInstances()->forAll(var | var.accounts->size() <= var.capacity)
+context Account inv minCredit : Account::allInstances()->select(var| var.credit < 0)->isEmpty()
+
+
 
 
 

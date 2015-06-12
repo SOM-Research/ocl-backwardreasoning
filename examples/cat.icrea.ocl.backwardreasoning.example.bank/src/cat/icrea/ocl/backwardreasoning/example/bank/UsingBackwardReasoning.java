@@ -20,6 +20,7 @@ import bank.Manager;
 import cat.icrea.ocl.backwardreasoning.facade.OCLBackWardReasoning;
 import cat.icrea.ocl.backwardreasoning.utils.OCLUtil;
 
+import org.eclipse.ocl.common.OCLCommon;
 import org.eclipse.ocl.ecore.Constraint;
 
 public class UsingBackwardReasoning {
@@ -55,7 +56,7 @@ public class UsingBackwardReasoning {
 				.get(0), "@clients.0");
 		Manager manager = (Manager) EcoreUtil.getEObject(resource.getContents()
 				.get(0), "@managers.0");
-		EAttribute capacity = client.eClass().getEAllAttributes().get(1);
+		EAttribute capacity = account.eClass().getEAllAttributes().get(0);
 
 		System.out.println("List of constraints");
 		System.out.println(constraints);
@@ -69,6 +70,51 @@ public class UsingBackwardReasoning {
 			System.out.println("Pre-condition : "
 					+ temp.getSpecification().getBodyExpression());
 			System.out.println("");
+			
+		}
+		System.err
+		.println("Delete the link between client c and manager m");
+		for (Constraint c : constraints) {
+			System.out.println("Post-condition : " + c);
+			Constraint temp = oclBackWardReasoning.deleteLink(c, client.eClass(), manager.eClass(),"c", "m");
+			System.out.println("Pre-condition : "
+					+ temp.getSpecification().getBodyExpression());
+			System.out.println("");
+			
+			
+		}
+		System.err
+		.println("Create a link between client c and account a");
+		for (Constraint c : constraints) {
+			System.out.println("Post-condition : " + c);
+			Constraint temp = oclBackWardReasoning.createLink(c, client.eClass(), account.eClass(),"c", "a");
+			System.out.println("Pre-condition : "
+					+ temp.getSpecification().getBodyExpression());
+			System.out.println("");
+			
+			
+		}
+		System.err
+		.println("Update the attribute credit of the account a : put new_val expression");
+		for (Constraint c : constraints) {
+			System.out.println("Post-condition : " + c);
+			Constraint temp = oclBackWardReasoning.updateAttribute(c, account.eClass(), "a", capacity, "new_val");
+			System.out.println("Pre-condition : "
+					+ temp.getSpecification().getBodyExpression());
+			System.out.println("");
+			
+			
+		}
+		System.err
+		.println("Create object :  Account a");
+		for (Constraint c : constraints) {
+			System.out.println("Post-condition : " + c);
+			Constraint temp = oclBackWardReasoning.createObject(c, account.eClass(), "a");
+			System.out.println("Pre-condition : "
+					+ temp.getSpecification().getBodyExpression());
+			System.out.println("");
+			
+			
 		}
 	}
 
