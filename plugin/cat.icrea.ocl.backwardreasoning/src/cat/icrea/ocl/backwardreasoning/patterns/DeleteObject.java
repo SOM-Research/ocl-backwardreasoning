@@ -76,6 +76,7 @@ public class DeleteObject {
 			operationCallExp.setReferredOperation(excluding);
 			operationCallExp.getArgument().add(variable);
 			operationCallExp.setSource(item);
+			
 			op.setSource(operationCallExp);
 
 		}

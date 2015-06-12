@@ -51,7 +51,7 @@ public class CreateLink {
 		this.eClassTarget = eClassTarget;
 		this.variableNameSource = variableNameSource;
 		this.variableNameTarget = variableNameTarget;
-		oclExpression = (ExpressionInOCL) constraint.getSpecification();
+		oclExpression = (ExpressionInOCL) this.constraint.getSpecification();
 		contextCls = (EClass) constraint.getConstrainedElements().get(0);
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
 		helper = ocl.createOCLHelper();

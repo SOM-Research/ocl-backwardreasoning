@@ -6,6 +6,7 @@ import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.ecore.Constraint;
 
 import cat.icrea.ocl.backwardreasoning.patterns.CreateLink;
+import cat.icrea.ocl.backwardreasoning.patterns.CreateObject;
 import cat.icrea.ocl.backwardreasoning.patterns.DeleteLink;
 import cat.icrea.ocl.backwardreasoning.patterns.DeleteObject;
 import cat.icrea.ocl.backwardreasoning.patterns.UpdateAttribute;
@@ -15,6 +16,7 @@ public class OCLBackWardReasoning {
 	private CreateLink createLink;
 	private DeleteLink deleteLink;
 	private DeleteObject deleteObject;
+	private CreateObject createObject;
 	private UpdateAttribute updateAttribute;
 
 	public Constraint createLink(Constraint constraint, EClass eClassSource,
@@ -42,8 +44,14 @@ public class OCLBackWardReasoning {
 		deleteObject.insertQuantification();
 		return deleteObject.getConstraint();
 	}
+	public Constraint createObject(Constraint constraint, EClass eClass,
+			String variableName) throws ParserException {
+		createObject = new CreateObject(constraint, eClass, variableName);
+		createObject.insertQuantification();
+		return createObject.getConstraint();
+	}
 
-	public Constraint UpdateAttribute(Constraint constraint, EClass eClass,
+	public Constraint updateAttribute(Constraint constraint, EClass eClass,
 			String eClassVariableName, EAttribute eAttribute, String newValLabel)
 			throws ParserException {
 		updateAttribute = new UpdateAttribute(constraint, eClass,

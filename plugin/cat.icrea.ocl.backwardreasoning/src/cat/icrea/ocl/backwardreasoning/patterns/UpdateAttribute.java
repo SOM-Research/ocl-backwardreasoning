@@ -26,6 +26,7 @@ import org.eclipse.ocl.expressions.PropertyCallExp;
 import org.eclipse.ocl.expressions.Variable;
 import org.eclipse.ocl.expressions.VariableExp;
 import org.eclipse.ocl.helper.OCLHelper;
+import org.eclipse.ocl.utilities.ASTNode;
 import org.eclipse.ocl.utilities.ExpressionInOCL;
 
 import cat.icrea.ocl.backwardreasoning.utils.OCLUtil;
@@ -51,7 +52,7 @@ public class UpdateAttribute {
 		this.eAttribute = eAttribute;
 		this.newValLabel = newValLabel;
 		this.eClassVariableName = eClassVariableName;
-		oclExpression = (ExpressionInOCL) constraint.getSpecification();
+		oclExpression = (ExpressionInOCL) this.constraint.getSpecification();
 		contextCls = (EClass) constraint.getConstrainedElements().get(0);
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
 		helper = ocl.createOCLHelper();
@@ -73,16 +74,15 @@ public class UpdateAttribute {
 		VariableExp<EClassifier, EParameter> contextVariable = lookupVariable
 				.getResult();
 		for (PropertyCallExp<EClassifier, EStructuralFeature> item : result)
-			if ( item.getReferredProperty().getName()
-					.equals(eAttribute.getName())) {
+			if ( item.getReferredProperty().equals(eAttribute)) {
 
 				EcorePackage oclPackage = (EcorePackage) oclExpression.eClass()
 						.getEPackage();
 				EcoreFactory oclFactory = (EcoreFactory) oclPackage
 						.getEFactoryInstance();
 				OperationCallExp op = (OperationCallExp) item.eContainer();
-				OperationCallExp clone = EcoreUtil
-						.copy(getOperationContainer(op));
+				PropertyCallExp clone =  EcoreUtil
+						.copy(item);
 				IfExp ifExp = oclFactory.createIfExp();
 
 				VariableExp varEClass = oclFactory.createVariableExp();
@@ -117,7 +117,8 @@ public class UpdateAttribute {
 				ifExp.setName("if");
 				ifExp.setThenExpression(varNewValue);
 				ifExp.setElseExpression(clone);
-				((IteratorExp) bodyExp).setBody(ifExp);
+//				((IteratorExp) bodyExp).setBody(ifExp);
+				 ((OperationCallExp) item.eContainer()).setSource(ifExp);
 			}
 	}
 
