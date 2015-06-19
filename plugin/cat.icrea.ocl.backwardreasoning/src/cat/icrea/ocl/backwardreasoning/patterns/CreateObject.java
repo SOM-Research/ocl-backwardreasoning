@@ -5,15 +5,20 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.ecore.Constraint;
 import org.eclipse.ocl.ecore.EcoreFactory;
 import org.eclipse.ocl.ecore.EcorePackage;
-import org.eclipse.ocl.ecore.IteratorExp;
+import org.eclipse.ocl.ecore.IntegerLiteralExp;
 import org.eclipse.ocl.ecore.OCL;
+import org.eclipse.ocl.ecore.internal.OCLStandardLibraryImpl;
+import org.eclipse.ocl.expressions.IfExp;
+import org.eclipse.ocl.expressions.IteratorExp;
 import org.eclipse.ocl.expressions.OCLExpression;
 import org.eclipse.ocl.expressions.OperationCallExp;
 import org.eclipse.ocl.expressions.PropertyCallExp;
@@ -25,6 +30,9 @@ import org.eclipse.ocl.utilities.ExpressionInOCL;
 import cat.icrea.ocl.backwardreasoning.utils.OCLUtil;
 import cat.icrea.ocl.backwardreasoning.visitors.LookupAllInstancesVisitor;
 import cat.icrea.ocl.backwardreasoning.visitors.LookupPropertyVisitor;
+import cat.icrea.ocl.backwardreasoning.visitors.LookupSelectVisitor;
+import cat.icrea.ocl.backwardreasoning.visitors.LookupSizeVisitor;
+import cat.icrea.ocl.backwardreasoning.visitors.LookupVariableExpVisitor;
 
 
 public class CreateObject {
@@ -54,32 +62,105 @@ public class CreateObject {
 			throws ParserException {
 
 		OCLExpression bodyExp = oclExpression.getBodyExpression();
+		EcorePackage oclPackage = (EcorePackage) oclExpression.eClass()
+				.getEPackage();
+		EcoreFactory oclFactory = (EcoreFactory) oclPackage
+				.getEFactoryInstance();
 		LookupAllInstancesVisitor lookupVisitor = new LookupAllInstancesVisitor();
+		LookupSizeVisitor lookupSizeVisitor = new LookupSizeVisitor();
+		LookupSelectVisitor lookupSelectVisitor = new LookupSelectVisitor();
+		LookupPropertyVisitor lookupPropertyVisitor = new LookupPropertyVisitor();
 		bodyExp.accept(lookupVisitor);
+		bodyExp.accept(lookupSizeVisitor);
+		bodyExp.accept(lookupSelectVisitor);
 		Set<OperationCallExp<EClassifier, EOperation>> result = lookupVisitor.getResult();
-		for(OperationCallExp<EClassifier, EOperation> item : result)
-		if (((EClassifier)item.getSource().getType()).getName().equals(eClass.getName())) {
+		Set<OperationCallExp<EClassifier, EOperation>> resultSize = lookupSizeVisitor.getResult();
+		Set<IteratorExp<EClassifier, EParameter>> resultSelect = lookupSelectVisitor.getResult();
 		
-			EcorePackage oclPackage = (EcorePackage) oclExpression.eClass()
-					.getEPackage();
-			EcoreFactory oclFactory = (EcoreFactory) oclPackage
-					.getEFactoryInstance();
-			IteratorExp op = (IteratorExp) item.eContainer();
-			VariableExp variable = oclFactory.createVariableExp();
-			variable.setName(variableName);
-			variable.setType(eClass);
-			Variable v = oclFactory.createVariable();
-			v.setName(variableName);
-			v.setType(eClass);
-			variable.setReferredVariable(v);
-			OperationCallExp operationCallExp = oclFactory.createOperationCallExp();
-			EOperation including = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEOperation();
-			including.setName("including");
-			operationCallExp.setReferredOperation(including);
-			operationCallExp.getArgument().add(variable);
-			operationCallExp.setSource(item);
-			op.setSource(operationCallExp);
+//		for(OperationCallExp<EClassifier, EOperation> item : result)
+//		if (((EClassifier)item.getSource().getType()).getName().equals(eClass.getName())) {
+//		
+//			EcorePackage oclPackage = (EcorePackage) oclExpression.eClass()
+//					.getEPackage();
+//			EcoreFactory oclFactory = (EcoreFactory) oclPackage
+//					.getEFactoryInstance();
+//			org.eclipse.ocl.ecore.IteratorExp op = (org.eclipse.ocl.ecore.IteratorExp) item.eContainer();
+//			VariableExp variable = oclFactory.createVariableExp();
+//			variable.setName(variableName);
+//			variable.setType(eClass);
+//			Variable v = oclFactory.createVariable();
+//			v.setName(variableName);
+//			v.setType(eClass);
+//			variable.setReferredVariable(v);
+//			OperationCallExp operationCallExp = oclFactory.createOperationCallExp();
+//			EOperation including = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEOperation();
+//			including.setName("including");
+//			operationCallExp.setReferredOperation(including);
+//			operationCallExp.getArgument().add(variable);
+//			operationCallExp.setSource(item);
+//			op.setSource(operationCallExp);
+//
+//		}
+		for(IteratorExp<EClassifier, EParameter> item : resultSelect)
+			{
+			
+				OperationCallExp copyforIf = (OperationCallExp) EcoreUtil.copy(item.eContainer());
+				OperationCallExp copyforIf2 = (OperationCallExp) EcoreUtil.copy(item.eContainer());
+				IteratorExp copySelect =  EcoreUtil.copy(item);
+			
+				OperationCallExp<EClassifier, EOperation> selectBody = (OperationCallExp<EClassifier, EOperation>) EcoreUtil.copy(item.getBody());
+				IntegerLiteralExp integer =	oclFactory.createIntegerLiteralExp();
+				integer.setIntegerSymbol(0);
+				
+				LookupVariableExpVisitor lookupVariableExpVisitor = new LookupVariableExpVisitor();
+				selectBody.accept(lookupVariableExpVisitor);
+				VariableExp<EClassifier, EParameter> resultForVariable = lookupVariableExpVisitor.getResult();
+				if(resultForVariable != null){
+					resultForVariable.setName(variableName);
+					resultForVariable.getReferredVariable().setName(variableName);
+					selectBody.setSource(integer);
+				}
+				
+				VariableExp variable = oclFactory.createVariableExp();
+				variable.setName(variableName);
+				variable.setType(eClass);
+				Variable v = oclFactory.createVariable();
+				v.setName(variableName);
+				v.setType(eClass);
+				variable.setReferredVariable(v);
+				OperationCallExp operationCallExp = oclFactory.createOperationCallExp();
+				EOperation including = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEOperation();
+				including.setName("including");
+				operationCallExp.setReferredOperation(including);
+				operationCallExp.getArgument().add(variable);
+				operationCallExp.setType(OCLStandardLibraryImpl.INSTANCE.getCollection());
+				operationCallExp.setSource(copySelect);
+				copyforIf.setSource(operationCallExp);
+				IfExp ifExp = oclFactory.createIfExp();
+				ifExp.setCondition(selectBody);
+				ifExp.setThenExpression(copyforIf);
+				ifExp.setElseExpression(copyforIf2);
+				ifExp.setType(org.eclipse.emf.ecore.EcorePackage.eINSTANCE.getEString());
+				oclExpression.setBodyExpression(ifExp);
+				
+			
 
+
+			}
+	
+		bodyExp.accept(lookupPropertyVisitor);
+		Set<PropertyCallExp<EClassifier, EStructuralFeature>> resultProperty = lookupPropertyVisitor
+				.getResult();
+		
+		for(PropertyCallExp<EClassifier, EStructuralFeature> item : resultProperty){
+			if(item.getSource() instanceof VariableExp && ((VariableExp)item.getSource()).getReferredVariable().getName().equals(variableName)){
+			IntegerLiteralExp integer =	oclFactory.createIntegerLiteralExp();
+			integer.setIntegerSymbol(0);
+			EObject temp =  item.eContainer();
+		if (temp instanceof OperationCallExp){
+			((OperationCallExp)temp).setSource(integer);
+		}
+			}
 		}
 	}
 	public Constraint getConstraint() {

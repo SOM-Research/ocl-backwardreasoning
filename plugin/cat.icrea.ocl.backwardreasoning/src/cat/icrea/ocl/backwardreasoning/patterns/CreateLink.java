@@ -1,6 +1,7 @@
 package cat.icrea.ocl.backwardreasoning.patterns;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
@@ -17,6 +18,7 @@ import org.eclipse.ocl.ecore.EcoreFactory;
 import org.eclipse.ocl.ecore.EcorePackage;
 import org.eclipse.ocl.ecore.IteratorExp;
 import org.eclipse.ocl.ecore.OCL;
+import org.eclipse.ocl.ecore.internal.OCLStandardLibraryImpl;
 import org.eclipse.ocl.expressions.IfExp;
 import org.eclipse.ocl.expressions.IterateExp;
 import org.eclipse.ocl.expressions.OCLExpression;
@@ -25,6 +27,7 @@ import org.eclipse.ocl.expressions.PropertyCallExp;
 import org.eclipse.ocl.expressions.Variable;
 import org.eclipse.ocl.expressions.VariableExp;
 import org.eclipse.ocl.helper.OCLHelper;
+import org.eclipse.ocl.types.OCLStandardLibrary;
 import org.eclipse.ocl.utilities.ExpressionInOCL;
 
 import cat.icrea.ocl.backwardreasoning.utils.OCLUtil;
@@ -113,11 +116,25 @@ public class CreateLink {
 
 				OperationCallExp operationCallExp = oclFactory
 						.createOperationCallExp();
-				EOperation including = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE
-						.createEOperation();
-				including.setName("including");
+				//EOperation including = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE
+				//		.createEOperation();
+				//including.setEType(org.eclipse.emf.ecore.EcorePackage.eINSTANCE.getEEList());
+				//including.setName("including");
+				Iterator<EOperation> it = OCLStandardLibraryImpl.INSTANCE.getExistingOperations(OCLStandardLibraryImpl.INSTANCE.getSet()).iterator();
+				EOperation including = null;
+				while(it.hasNext()) {
+					EOperation opp = it.next();
+					if(opp.getName() != null && opp.getName().equals("including")) {
+//						System.out.println(opp.getName());
+						including = opp;
+					}
+				}
+				//System.out.println(OCLStandardLibraryImpl.INSTANCE.getExistingOperations(OCLStandardLibraryImpl.INSTANCE.getSet()).toString());
+				//System.out.println(OCLStandardLibraryImpl.INSTANCE.getSequence().eClass().getEOperations().size());
+				//System.out.println(((EClass)OCLStandardLibraryImpl.INSTANCE.getCollection()).getEOperations().toString());
 				operationCallExp.setReferredOperation(including);
 				operationCallExp.getArgument().add(variableTarget);
+				operationCallExp.setType(OCLStandardLibraryImpl.INSTANCE.getCollection());
 				operationCallExp.setSource(item);
 				op.setSource(operationCallExp);
 

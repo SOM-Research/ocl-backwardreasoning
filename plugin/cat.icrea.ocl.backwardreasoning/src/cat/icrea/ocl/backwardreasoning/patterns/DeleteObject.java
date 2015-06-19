@@ -13,6 +13,7 @@ import org.eclipse.ocl.ecore.Constraint;
 import org.eclipse.ocl.ecore.EcoreFactory;
 import org.eclipse.ocl.ecore.EcorePackage;
 import org.eclipse.ocl.ecore.OCL;
+import org.eclipse.ocl.ecore.internal.OCLStandardLibraryImpl;
 import org.eclipse.ocl.expressions.OCLExpression;
 import org.eclipse.ocl.expressions.OperationCallExp;
 import org.eclipse.ocl.expressions.PropertyCallExp;
@@ -74,6 +75,7 @@ public class DeleteObject {
 			EOperation excluding = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEOperation();
 			excluding.setName("excluding");
 			operationCallExp.setReferredOperation(excluding);
+			operationCallExp.setType(OCLStandardLibraryImpl.INSTANCE.getCollection());
 			operationCallExp.getArgument().add(variable);
 			operationCallExp.setSource(item);
 			

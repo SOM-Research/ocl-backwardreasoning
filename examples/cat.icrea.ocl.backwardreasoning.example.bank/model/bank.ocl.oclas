@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pivot:Root xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:pivot="http://www.eclipse.org/ocl/3.1.0/Pivot" xsi:schemaLocation="http://www.eclipse.org/ocl/3.1.0/Pivot java://org.eclipse.ocl.examples.pivot.PivotPackage"
+    name="bank.ocl" externalURI="platform:/resource/cat.icrea.ocl.backwardreasoning.example.bank/model/bank.ocl">
+  <nestedPackage xmi:id="P.bank" name="bank" nsURI="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib">
+    <ownedType xsi:type="pivot:Class" xmi:id="T.bank.OclInvalid.0" name="OclInvalid">
+      <ownedInvariant xmi:id="cibank.OclInvalid.minAccounts" name="minAccounts" constrainedElement="#T.bank.OclInvalid.0">
+        <specification xsi:type="pivot:ExpressionInOCL" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#Boolean">
+          <body>self.accounts->size()> 0
+
+</body>
+          <language>OCL</language>
+          <bodyExpression xsi:type="pivot:OperationCallExp" name=">" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#Boolean"
+              referredOperation="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#o.ocl.Real.%62%..ocl.OclSelf">
+            <source xsi:type="pivot:OperationCallExp" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#Integer"
+                referredOperation="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#o.ocl.Collection.size">
+              <source xsi:type="pivot:OperationCallExp" name="oclAsSet" type="#//@nestedPackage.1/@ownedType.0"
+                  implicit="true" referredOperation="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#o.ocl.OclInvalid.oclAsSet">
+                <source xsi:type="pivot:PropertyCallExp" isRequired="false" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                    referredProperty="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#p.ocl.OclInvalid.oclBadProperty">
+                  <source xsi:type="pivot:VariableExp" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                      referredVariable="#//@nestedPackage.0/@ownedType.0/@ownedInvariant.0/@specification/@contextVariable"/>
+                </source>
+              </source>
+            </source>
+            <argument xsi:type="pivot:UnlimitedNaturalLiteralExp" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#UnlimitedNatural"
+                unlimitedNaturalSymbol="0"/>
+          </bodyExpression>
+          <contextVariable name="self" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"/>
+        </specification>
+      </ownedInvariant>
+    </ownedType>
+    <ownedType xsi:type="pivot:Class" xmi:id="T.bank.OclInvalid.1" name="OclInvalid">
+      <ownedAttribute xmi:id="p.bank.OclInvalid.test" name="test" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#String"
+          isDerived="true" isReadOnly="true" isResolveProxies="false" isTransient="true"
+          isVolatile="true">
+        <defaultExpression xsi:type="pivot:ExpressionInOCL" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#String">
+          <body>
+	if(true) then 'pouet' else 'tagada' endif
+
+
+
+</body>
+          <language>OCL</language>
+          <bodyExpression xsi:type="pivot:IfExp" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#String">
+            <condition xsi:type="pivot:BooleanLiteralExp" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#Boolean"
+                booleanSymbol="true"/>
+            <elseExpression xsi:type="pivot:StringLiteralExp" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#String"
+                stringSymbol="tagada"/>
+            <thenExpression xsi:type="pivot:StringLiteralExp" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#String"
+                stringSymbol="pouet"/>
+          </bodyExpression>
+          <contextVariable name="self" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"/>
+        </defaultExpression>
+      </ownedAttribute>
+    </ownedType>
+    <ownedType xsi:type="pivot:Class" xmi:id="T.bank.OclInvalid.2" name="OclInvalid">
+      <ownedInvariant xmi:id="cibank.OclInvalid.minCredit" name="minCredit" constrainedElement="#T.bank.OclInvalid.2">
+        <specification xsi:type="pivot:ExpressionInOCL" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#Boolean">
+          <body>Account::allInstances()->select(var| var.credit &lt; 0)->isEmpty()
+
+</body>
+          <language>OCL</language>
+          <bodyExpression xsi:type="pivot:OperationCallExp" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#Boolean"
+              referredOperation="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#o.ocl.Collection.isEmpty">
+            <source xsi:type="pivot:IteratorExp" type="#//@nestedPackage.1/@ownedType.0"
+                referredIteration="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#i.ocl.Set.select..T">
+              <source xsi:type="pivot:OperationCallExp" name="oclAsSet" type="#//@nestedPackage.1/@ownedType.0"
+                  implicit="true" referredOperation="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#o.ocl.OclInvalid.oclAsSet">
+                <source xsi:type="pivot:OperationCallExp" isRequired="false" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                    referredOperation="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#o.ocl.OclInvalid.oclBadOperation">
+                  <source xsi:type="pivot:VariableExp" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                      implicit="true" referredVariable="#//@nestedPackage.0/@ownedType.2/@ownedInvariant.0/@specification/@contextVariable"/>
+                </source>
+              </source>
+              <body xsi:type="pivot:OperationCallExp" name="&lt;" isRequired="false"
+                  type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                  referredOperation="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#o.ocl.OclInvalid.oclBadOperation">
+                <source xsi:type="pivot:PropertyCallExp" isRequired="false" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                    referredProperty="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#p.ocl.OclInvalid.oclBadProperty">
+                  <source xsi:type="pivot:VariableExp" isRequired="false" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                      referredVariable="#//@nestedPackage.0/@ownedType.2/@ownedInvariant.0/@specification/@bodyExpression/@source/@iterator.0"/>
+                </source>
+                <argument xsi:type="pivot:UnlimitedNaturalLiteralExp" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#UnlimitedNatural"
+                    unlimitedNaturalSymbol="0"/>
+              </body>
+              <iterator name="var" isRequired="false" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                  representedParameter="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#i0i.ocl.Set.select..T"/>
+            </source>
+          </bodyExpression>
+          <contextVariable name="self" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"/>
+        </specification>
+      </ownedInvariant>
+    </ownedType>
+    <ownedType xsi:type="pivot:Class" xmi:id="T.bank.OclInvalid.3" name="OclInvalid">
+      <ownedInvariant xmi:id="cibank.OclInvalid.maxAccounts" name="maxAccounts" constrainedElement="#T.bank.OclInvalid.3">
+        <specification xsi:type="pivot:ExpressionInOCL" isRequired="false" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#Boolean">
+          <body>Client::allInstances()->forAll(var | var.accounts->size() &lt;= var.capacity)
+</body>
+          <language>OCL</language>
+          <bodyExpression xsi:type="pivot:IteratorExp" isRequired="false" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#Boolean"
+              referredIteration="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#i.ocl.Collection.forAll..T">
+            <source xsi:type="pivot:OperationCallExp" name="oclAsSet" type="#//@nestedPackage.1/@ownedType.0"
+                implicit="true" referredOperation="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#o.ocl.OclInvalid.oclAsSet">
+              <source xsi:type="pivot:OperationCallExp" isRequired="false" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                  referredOperation="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#o.ocl.OclInvalid.oclBadOperation">
+                <source xsi:type="pivot:VariableExp" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                    implicit="true" referredVariable="#//@nestedPackage.0/@ownedType.3/@ownedInvariant.0/@specification/@contextVariable"/>
+              </source>
+            </source>
+            <body xsi:type="pivot:OperationCallExp" name="&lt;=" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#Boolean"
+                referredOperation="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#o.ocl.Real.%60%%61%..ocl.OclSelf">
+              <source xsi:type="pivot:OperationCallExp" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#Integer"
+                  referredOperation="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#o.ocl.Collection.size">
+                <source xsi:type="pivot:OperationCallExp" name="oclAsSet" type="#//@nestedPackage.1/@ownedType.0"
+                    implicit="true" referredOperation="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#o.ocl.OclInvalid.oclAsSet">
+                  <source xsi:type="pivot:PropertyCallExp" isRequired="false" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                      referredProperty="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#p.ocl.OclInvalid.oclBadProperty">
+                    <source xsi:type="pivot:VariableExp" isRequired="false" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                        referredVariable="#//@nestedPackage.0/@ownedType.3/@ownedInvariant.0/@specification/@bodyExpression/@iterator.0"/>
+                  </source>
+                </source>
+              </source>
+              <argument xsi:type="pivot:PropertyCallExp" isRequired="false" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                  referredProperty="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#p.ocl.OclInvalid.oclBadProperty">
+                <source xsi:type="pivot:VariableExp" isRequired="false" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                    referredVariable="#//@nestedPackage.0/@ownedType.3/@ownedInvariant.0/@specification/@bodyExpression/@iterator.0"/>
+              </argument>
+            </body>
+            <iterator name="var" isRequired="false" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                representedParameter="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#i0i.ocl.Collection.forAll..T"/>
+          </bodyExpression>
+          <contextVariable name="self" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"/>
+        </specification>
+      </ownedInvariant>
+    </ownedType>
+    <ownedType xsi:type="pivot:Class" xmi:id="T.bank.OclInvalid.4" name="OclInvalid">
+      <ownedInvariant xmi:id="cibank.OclInvalid.minManagers" name="minManagers" constrainedElement="#T.bank.OclInvalid.4">
+        <specification xsi:type="pivot:ExpressionInOCL" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#Boolean">
+          <body>self.manager->size()>0
+</body>
+          <language>OCL</language>
+          <bodyExpression xsi:type="pivot:OperationCallExp" name=">" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#Boolean"
+              referredOperation="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#o.ocl.Real.%62%..ocl.OclSelf">
+            <source xsi:type="pivot:OperationCallExp" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#Integer"
+                referredOperation="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#o.ocl.Collection.size">
+              <source xsi:type="pivot:OperationCallExp" name="oclAsSet" type="#//@nestedPackage.1/@ownedType.0"
+                  implicit="true" referredOperation="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#o.ocl.OclInvalid.oclAsSet">
+                <source xsi:type="pivot:PropertyCallExp" isRequired="false" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                    referredProperty="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#p.ocl.OclInvalid.oclBadProperty">
+                  <source xsi:type="pivot:VariableExp" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+                      referredVariable="#//@nestedPackage.0/@ownedType.4/@ownedInvariant.0/@specification/@contextVariable"/>
+                </source>
+              </source>
+            </source>
+            <argument xsi:type="pivot:UnlimitedNaturalLiteralExp" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#UnlimitedNatural"
+                unlimitedNaturalSymbol="0"/>
+          </bodyExpression>
+          <contextVariable name="self" type="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"/>
+        </specification>
+      </ownedInvariant>
+    </ownedType>
+  </nestedPackage>
+  <nestedPackage xmi:id="P.$$" name="$$" nsPrefix="orphanage" nsURI="http://www.eclipse.org/ocl/3.1.0/orphanage">
+    <ownedType xsi:type="pivot:SetType" name="Set" superClass="#//@nestedPackage.1/@ownedType.1"
+        elementType="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid">
+      <templateBinding signature="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#s.Set">
+        <parameterSubstitution actual="pivot:InvalidType http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+            formal="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#t.ocl..SetT"/>
+      </templateBinding>
+    </ownedType>
+    <ownedType xsi:type="pivot:CollectionType" name="UniqueCollection" superClass="#//@nestedPackage.1/@ownedType.2"
+        elementType="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid">
+      <templateBinding signature="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#s.UniqueCollection">
+        <parameterSubstitution actual="pivot:InvalidType http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+            formal="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#t.ocl..UniqueCollectionT"/>
+      </templateBinding>
+    </ownedType>
+    <ownedType xsi:type="pivot:CollectionType" name="Collection" superClass="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclAny"
+        elementType="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid">
+      <templateBinding signature="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#s.Collection">
+        <parameterSubstitution actual="pivot:InvalidType http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#T.ocl.OclInvalid"
+            formal="http://www.eclipse.org/ocl/3.1.0/OCL.oclstdlib.oclas#t.ocl..CollectionT"/>
+      </templateBinding>
+    </ownedType>
+  </nestedPackage>
+</pivot:Root>
