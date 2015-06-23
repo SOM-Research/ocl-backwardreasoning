@@ -3,6 +3,7 @@ package cat.icrea.ocl.backwardreasoning.patterns;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EOperation;
@@ -57,7 +58,7 @@ public class DeleteObject {
 		bodyExp.accept(lookupVisitor);
 		Set<PropertyCallExp<EClassifier, EStructuralFeature>> result = lookupVisitor.getResult();
 		for(PropertyCallExp<EClassifier, EStructuralFeature> item : result)
-		if (((EClassifier)item.getReferredProperty().getEType()).getName().equals(eClass.getName())) {
+			if (item.getReferredProperty().getEType() instanceof EClass && ((EClass)item.getReferredProperty().getEType()).isSuperTypeOf(eClass)) {
 		
 			EcorePackage oclPackage = (EcorePackage) oclExpression.eClass()
 					.getEPackage();
