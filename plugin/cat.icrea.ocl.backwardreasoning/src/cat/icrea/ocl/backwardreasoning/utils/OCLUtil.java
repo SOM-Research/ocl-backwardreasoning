@@ -66,7 +66,7 @@ public class OCLUtil {
 			IteratorExp forAllExp = oclFactory.createIteratorExp();
 			forAllExp.setName("forAll");
 			forAllExp.setType((EClassifier) bodyExp.getType());
-			selfDecl.setName("self");
+			selfDecl.setName("var");
 			selfDecl.setType(contextCls);
 			forAllExp.getIterator().add(selfDecl);
 			forAllExp.setBody(bodyExp);
