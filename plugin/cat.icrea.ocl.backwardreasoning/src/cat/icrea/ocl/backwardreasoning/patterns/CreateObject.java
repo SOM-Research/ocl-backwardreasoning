@@ -3,6 +3,7 @@ package cat.icrea.ocl.backwardreasoning.patterns;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
@@ -27,8 +28,11 @@ import org.eclipse.ocl.expressions.VariableExp;
 import org.eclipse.ocl.helper.OCLHelper;
 import org.eclipse.ocl.utilities.ExpressionInOCL;
 
+import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
+
 import cat.icrea.ocl.backwardreasoning.utils.OCLUtil;
 import cat.icrea.ocl.backwardreasoning.visitors.LookupAllInstancesVisitor;
+import cat.icrea.ocl.backwardreasoning.visitors.LookupExcludingVisitor;
 import cat.icrea.ocl.backwardreasoning.visitors.LookupPropertyVisitor;
 import cat.icrea.ocl.backwardreasoning.visitors.LookupSelectVisitor;
 import cat.icrea.ocl.backwardreasoning.visitors.LookupSizeVisitor;
@@ -68,13 +72,14 @@ public class CreateObject {
 				.getEFactoryInstance();
 		LookupAllInstancesVisitor lookupVisitor = new LookupAllInstancesVisitor();
 		LookupSizeVisitor lookupSizeVisitor = new LookupSizeVisitor();
+		LookupExcludingVisitor lookupExcludingVisitor = new LookupExcludingVisitor();
 		LookupSelectVisitor lookupSelectVisitor = new LookupSelectVisitor();
 		LookupPropertyVisitor lookupPropertyVisitor = new LookupPropertyVisitor();
 		bodyExp.accept(lookupVisitor);
-		bodyExp.accept(lookupSizeVisitor);
 		bodyExp.accept(lookupSelectVisitor);
+		bodyExp.accept(lookupExcludingVisitor);
 		Set<OperationCallExp<EClassifier, EOperation>> result = lookupVisitor.getResult();
-		Set<OperationCallExp<EClassifier, EOperation>> resultSize = lookupSizeVisitor.getResult();
+		Set<OperationCallExp<EClassifier, EOperation>> resultExcluding = lookupExcludingVisitor.getResult();
 		Set<IteratorExp<EClassifier, EParameter>> resultSelect = lookupSelectVisitor.getResult();
 		
 //		for(OperationCallExp<EClassifier, EOperation> item : result)
@@ -101,6 +106,22 @@ public class CreateObject {
 //			op.setSource(operationCallExp);
 //
 //		}
+		for(OperationCallExp<EClassifier, EOperation> item : resultExcluding)
+		if (item.getSource() instanceof OperationCallExp && ((VariableExp)((OperationCallExp)item.getSource()).getArgument().get(0)).getName().equals(variableName)) {
+			OperationCallExp including = (OperationCallExp) item.getSource();
+			if(((VariableExp)including.getArgument().get(0)).getName().equals(((VariableExp)item.getArgument().get(0)).getName())){
+				System.out.println("todo");
+			//todo
+			}
+			else {
+				OCLExpression source  = (OCLExpression)including.getSource();
+				OCLExpression container = (OCLExpression) item.eContainer();
+				including.setSource(item);
+				item.setSource(source);
+				if(container instanceof OperationCallExp )
+					((OperationCallExp)container).setSource(including);
+		
+		}}
 		for(IteratorExp<EClassifier, EParameter> item : resultSelect)
 			{
 			
@@ -160,6 +181,30 @@ public class CreateObject {
 		if (temp instanceof OperationCallExp){
 			((OperationCallExp)temp).setSource(integer);
 		}
+			}
+		}
+		
+		Set<OperationCallExp<EClassifier, EOperation>> resultSize = lookupSizeVisitor.getResult();
+		bodyExp.accept(lookupSizeVisitor);
+		for(OperationCallExp item : resultSize){
+			if(item.getSource() instanceof OperationCallExp && ((VariableExp)((OperationCallExp)item.getSource()).getArgument().get(0)).getName().equals(variableName)){
+				
+				OperationCallExp including = (OperationCallExp) item.getSource();
+				OCLExpression source  = (OCLExpression)including.getSource();
+				OCLExpression container = (OCLExpression) item.eContainer();
+				item.setSource(source);
+				OperationCallExp plusOperation = oclFactory.createOperationCallExp();
+				EOperation plus = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEOperation();
+				plus.setName("+");
+				plusOperation.setReferredOperation(plus);
+				IntegerLiteralExp integer =	oclFactory.createIntegerLiteralExp();
+				integer.setIntegerSymbol(1);
+				plusOperation.getArgument().add(integer);
+				plusOperation.setType(OCLStandardLibraryImpl.INSTANCE.getInteger());
+				plusOperation.setSource(item);
+		
+				if(container instanceof OperationCallExp )
+					((OperationCallExp)container).setSource(plusOperation);
 			}
 		}
 	}
