@@ -74,8 +74,8 @@ public class DeleteLink {
 		Set<PropertyCallExp<EClassifier, EStructuralFeature>> result = lookupVisitor.getResult();
 		VariableExp<EClassifier, EParameter> contextVariable = lookupVariable.getResult();
 		for(PropertyCallExp<EClassifier, EStructuralFeature> item : result)
-		if (((EClassifier)item.getReferredProperty().getEType()).getName().equals(eClassTarget.getName())) {
-		
+			if (item.getReferredProperty().getEType() instanceof EClass && ((EClass)item.getReferredProperty().getEType()).isSuperTypeOf(eClassTarget)) {
+				
 			EcorePackage oclPackage = (EcorePackage) oclExpression.eClass()
 					.getEPackage();
 			EcoreFactory oclFactory = (EcoreFactory) oclPackage
