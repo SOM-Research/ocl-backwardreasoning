@@ -76,8 +76,8 @@ public class CreateLink {
 		VariableExp<EClassifier, EParameter> contextVariable = lookupVariable
 				.getResult();
 		for (PropertyCallExp<EClassifier, EStructuralFeature> item : result)
-			if (((EClassifier) item.getReferredProperty().getEType()).getName()
-					.equals(eClassTarget.getName())) {
+			if (item.getReferredProperty().getEType() instanceof EClass && ((EClass)item.getReferredProperty().getEType()).isSuperTypeOf(eClassTarget)) {
+				
 
 				EcorePackage oclPackage = (EcorePackage) oclExpression.eClass()
 						.getEPackage();
