@@ -57,7 +57,7 @@ public class UsingBackwardReasoning {
 		Manager manager = (Manager) EcoreUtil.getEObject(resource.getContents()
 				.get(0), "@managers.0");
 		EAttribute capacity = account.eClass().getEAllAttributes().get(0);
-
+		long start = System.currentTimeMillis();
 		System.out.println("List of constraints");
 		System.out.println(constraints);
 		System.err
@@ -116,6 +116,9 @@ public class UsingBackwardReasoning {
 			
 			
 		}
+		long stop = System.currentTimeMillis();
+		System.out
+		.println("Total time : "+ (stop - start)/1000.0+"s");
 	}
 
 }
