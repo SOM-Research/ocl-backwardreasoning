@@ -111,6 +111,7 @@ public class DeleteObject {
 			EOperation including = org.eclipse.emf.ecore.EcoreFactory.eINSTANCE.createEOperation();
 			including.setName("excluding");
 			operationCallExp.setReferredOperation(including);
+			operationCallExp.setType(OCLStandardLibraryImpl.INSTANCE.getCollection());
 			operationCallExp.getArgument().add(variable);
 			operationCallExp.setSource(item);
 			op.setSource(operationCallExp);

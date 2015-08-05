@@ -112,7 +112,7 @@ public class CreateLink {
 				conditionExp.setReferredOperation(equals);
 				conditionExp.setType(oclFactory.createPrimitiveType());
 				conditionExp.getArgument().add(variableSource);
-				conditionExp.setSource(contextVariable);
+				conditionExp.setSource(((VariableExp)item.getSource()));
 
 				OperationCallExp operationCallExp = oclFactory
 						.createOperationCallExp();
@@ -140,9 +140,11 @@ public class CreateLink {
 
 				ifExp.setCondition(conditionExp);
 				ifExp.setName("if");
-				ifExp.setThenExpression(getOperationContainer(operationCallExp));
+				ifExp.setThenExpression(EcoreUtil.copy(getOperationContainer(operationCallExp)));
 				ifExp.setElseExpression(clone);
-				((IteratorExp) bodyExp).setBody(ifExp);
+				OperationCallExp rootOperation = getOperationContainer(operationCallExp);
+				if(rootOperation.eContainer() != null && rootOperation.eContainer() instanceof IteratorExp)
+				((IteratorExp) rootOperation.eContainer()).setBody(ifExp);
 			}
 	}
 

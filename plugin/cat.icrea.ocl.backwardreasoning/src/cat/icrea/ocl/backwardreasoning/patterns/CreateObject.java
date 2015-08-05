@@ -107,11 +107,10 @@ public class CreateObject {
 //
 //		}
 		for(OperationCallExp<EClassifier, EOperation> item : resultExcluding)
-		if (item.getSource() instanceof OperationCallExp && ((VariableExp)((OperationCallExp)item.getSource()).getArgument().get(0)).getName().equals(variableName)) {
+		if (item.getSource() instanceof OperationCallExp && !((OperationCallExp)item.getSource()).getArgument().isEmpty() &&((VariableExp)((OperationCallExp)item.getSource()).getArgument().get(0)).getName().equals(variableName)) {
 			OperationCallExp including = (OperationCallExp) item.getSource();
 			if(((VariableExp)including.getArgument().get(0)).getName().equals(((VariableExp)item.getArgument().get(0)).getName())){
-				System.out.println("todo");
-			//todo
+			//TODO
 			}
 			else {
 				OCLExpression source  = (OCLExpression)including.getSource();
