@@ -53,11 +53,12 @@ public class UsingBackwardReasoning {
 				.get(0), "@ic.0/@piece.0");
 		ProductionSystemFactory factory = ProductionSystemFactory.eINSTANCE;
 		Processed processed = factory.createProcessed();
-	
+		long start = System.currentTimeMillis();
 		System.out.println("Constraint");
 		System.out.println(constraint);
 		System.err
 				.println("Delete the object r");
+		
 		OCLBackWardReasoning oclBackWardReasoning = new OCLBackWardReasoning();
 		
 			System.out.println("Post-condition : " + constraint);
@@ -78,7 +79,9 @@ public class UsingBackwardReasoning {
 					+ temp.getSpecification().getBodyExpression());
 		
 		
-		
+		long stop = System.currentTimeMillis();
+		System.out
+		.println("Total time : "+ (stop - start)/1000.0+"s");
 	
 	}
 

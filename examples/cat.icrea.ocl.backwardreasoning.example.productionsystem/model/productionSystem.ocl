@@ -1,6 +1,6 @@
 package ProductionSystem
 
 context Conveyor 
-inv conveyorInv: self.piece->size()<=self.capacity
+inv conveyorInv: Conveyor.allInstances()->forAll(var | var.piece->size()<=var.capacity) and Piece.allInstances()->forAll(z| z.conveyor->size() =1)
 
 endpackage
